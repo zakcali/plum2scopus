@@ -1,4 +1,4 @@
 # plum2scopus
-fetches article information by scopus api, if scopus eid is known
+displays article information by plum api, if scopus eid is known
 
 you don't need an api-key
