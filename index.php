@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- plum2scopus V2.1: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
+<!-- plum2scopus V2.2: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
 programmed by Zafer Akçalı, MD -->
 <html>
 <head>
@@ -25,7 +25,7 @@ if($gelenScopus!=""){
 ?>
 <a href="eid nerede.png" target="_blank"> Scopus numarasına nereden bakılır? </a>
 <form method="post" action="">
-Scopus makale numarasını (eid) giriniz<br/>
+Scopus makale numarasını (eid) giriniz. <?php echo ' '.$s->dikkat;?><br/>
 <input type="text" name="scopusid" id="scopusid" value="<?php echo $s->scopusid;?>" >
 <input type="submit" value="Scopus yayın bilgilerini PHP ile getir">
 </form>

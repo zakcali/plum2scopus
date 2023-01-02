@@ -1,31 +1,34 @@
 <?php
 class getPlumPublication {
-	public $scopusid='', $doi='', $ArticleTitle='', $dergi='', $publisher='', $ISSN='', $eISSN='', $Year='', $Volume='', $Issue='', $StartPage='', $EndPage='', $yazarlar='', $PublicationType='', $AbstractText='', $PMID='', $atif='', $ISBN='';
+	public $scopusid='', $doi='', $ArticleTitle='', $dergi='', $publisher='', $ISSN='', $eISSN='', $Year='', $Volume='', $Issue='', $StartPage='', $EndPage='', $yazarlar='', $PublicationType='', $AbstractText='', $PMID='', $atif='', $ISBN='', $dikkat='';
 	public $yazarS=0;
-		    function __construct() {
+	
+	function __construct() {
 
 		}
 	final function plumPublication ($sid) {
 	
-	if($sid!=""){
-		if( substr($sid,0,7) != '2-s2.0-')
-	$sid='2-s2.0-'.$sid; // correct format
+	if( substr($sid,0,7) != '2-s2.0-')
+		$sid='2-s2.0-'.$sid; // correct format
 	$preText="https://api.plu.mx/widget/elsevier/artifact?type=elsevier_id&id=";
 	$postText='';
 	$url = $preText.$sid;
 	$data=file_get_contents($url);
-// print_r ($data);
 	$plumBilgi=(json_decode($data, true));
-// var_dump ($plumBilgi);
 // print_r ($plumBilgi);
 	if (!isset ($plumBilgi['error_code'])) {// Not found
 		$plumId=str_replace('https://plu.mx/a/','',$plumBilgi['link']);
 		$plumLink='https://plu.mx/api/v1/artifact/id/'.$plumId;
 		$data2=file_get_contents($plumLink);
-		$scopusBilgi=(json_decode($data2, true));
-// print_r($scopusBilgi);
+		$dizi=(json_decode($data2, true));
+// print_r($dizi);
+		$this->getDocumentData ($dizi); 
+			} else 	$this->dikkat='yayın bulunamadı'; 
+	} // final function plumPublication 	
+
+private function getDocumentData (& $scopusBilgi) {
 // Makalenin başlığı
-		$this->ArticleTitle=$scopusBilgi['bibliographic_data']['artifact_title'];
+	$this->ArticleTitle=$scopusBilgi['bibliographic_data']['artifact_title'];
 // yayın türü, çok güvenmemek gerek, vaka takdimleri de makale olabiliyor
 		if (isset($scopusBilgi['artifact_type']))
 			$this->PublicationType=$scopusBilgi['artifact_type'];
@@ -41,10 +44,10 @@ class getPlumPublication {
 // scopus numarası = eid
 		foreach ($scopusBilgi['identifier']['url_id'] as $eleman) {
 			if (strpos ($eleman,'www.scopus.com') !== false) {
-			$start=strpos ($eleman,'&scp=')+5;
-			$end=strpos ($eleman,'&',$offset=$start);
-			$length=$end-$start;
-			$this->scopusid='2-s2.0-'.substr($eleman, $start,$length);
+				$start=strpos ($eleman,'&scp=')+5;
+				$end=strpos ($eleman,'&',$offset=$start);
+				$length=$end-$start;
+				$this->scopusid='2-s2.0-'.substr($eleman, $start,$length);
 			}
 		}
 // Dergi ismi
@@ -104,8 +107,5 @@ class getPlumPublication {
 				}
 		}
 		$this->yazarlar=substr ($this->yazarlar,0,-2);
-			} // NotFound hatası gelmedi
-		
-		} 
-	} // final function plumPublication 		
+	} // private function getDocumentData
 }
