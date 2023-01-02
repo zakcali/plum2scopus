@@ -95,14 +95,17 @@ private function getDocumentData (& $scopusBilgi) {
 // yazar sayısı
 		$this->yazarS=0;
 		if (isset ($scopusBilgi['bibliographic_data']['authors'] )) { // bu yayının yazarı yok: 85129231682
+//		print_r ($scopusBilgi['bibliographic_data']['authors']);
 			foreach( $scopusBilgi['bibliographic_data']['authors'] as $eleman) {
 				$isim='';
 				$soyisim='';
-				$soyadAd=explode (", ", $eleman);
-				$soyisim=$soyadAd[0];
-				if (isset($soyadAd[1]))
-					$isim=$soyadAd[1];
-				$this->yazarlar=$this->yazarlar.$isim." ".$soyisim.", ";
+				if (strpos ($eleman, ',')) {// soyad, ad sırası gözetilmiş
+					$soyadAd=explode (", ", $eleman);
+					$soyisim=$soyadAd[0];
+					if (isset($soyadAd[1]))
+						$isim=$soyadAd[1];
+					$this->yazarlar.=$isim." ".$soyisim.", ";
+			} else $this->yazarlar.=$eleman.", "; // ad.soyad
 				$this->yazarS=$this->yazarS+1;	
 				}
 		}
