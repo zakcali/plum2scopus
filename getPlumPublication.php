@@ -16,17 +16,19 @@ class getPlumPublication {
 	$data=file_get_contents($url);
 	$plumBilgi=(json_decode($data, true));
 // print_r ($plumBilgi);
-	if (!isset ($plumBilgi['error_code'])) {// Not found
-		$plumId=str_replace('https://plu.mx/a/','',$plumBilgi['link']);
-		$plumLink='https://plu.mx/api/v1/artifact/id/'.$plumId;
-		$data2=file_get_contents($plumLink);
-		$dizi=(json_decode($data2, true));
-// print_r($dizi);
-		$this->getDocumentData ($dizi); 
-			} else 	$this->dikkat='yayın bulunamadı'; 
-	} // final function plumPublication 	
-
-private function getDocumentData (& $scopusBilgi) {
+	if (isset ($plumBilgi['error_code'])) {// Not found
+			$this->dikkat='yayın bulunamadı'; 
+			return;
+		}
+	$plumId=str_replace('https://plu.mx/a/','',$plumBilgi['link']);
+	$plumLink='https://plu.mx/api/v1/artifact/id/'.$plumId;
+	$data2=file_get_contents($plumLink);
+	$scopusBilgi=(json_decode($data2, true));
+	if (!$this->ArticleTitle=$scopusBilgi['bibliographic_data']['artifact_title']) {// no title
+		$this->dikkat='yayın bulunamadı'; 
+		return;
+		}
+// print_r($scopusBilgi);
 // Makalenin başlığı
 	$this->ArticleTitle=$scopusBilgi['bibliographic_data']['artifact_title'];
 // yayın türü, çok güvenmemek gerek, vaka takdimleri de makale olabiliyor
@@ -110,5 +112,5 @@ private function getDocumentData (& $scopusBilgi) {
 				}
 		}
 		$this->yazarlar=substr ($this->yazarlar,0,-2);
-	} // private function getDocumentData
+	} // final function plumPublication 	
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- plum2scopus V2.2: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
+<!-- plum2scopus V2.3: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
 programmed by Zafer Akçalı, MD -->
 <html>
 <head>
@@ -12,7 +12,7 @@ programmed by Zafer Akçalı, MD -->
 // plum2scopus
 // By Zafer Akçalı, MD
 // Zafer Akçalı tarafından programlanmıştır
-require_once './getPlumPublication.php';
+require_once 'getPlumPublication.php';
 $s=new getPlumPublication ();
 
 if (isset($_POST['scopusid'])) {
@@ -36,7 +36,7 @@ Scopus makale numarasını (eid) giriniz. <?php echo ' '.$s->dikkat;?><br/>
 <br/>
 Scopus eid: <input type="text" name="eid" size="25" id="eid" value="<?php echo $s->scopusid;?>" >  
 doi: <input type="text" name="doi" size="55"  id="doi" value="<?php echo $s->doi;?>"> <br/>
-Makalenin başlığı: <input type="text" name="ArticleTitle" size="85"  id="ArticleTitle" value="<?php echo str_replace ('"',  '&#34',$s->ArticleTitle);?>"> <br>
+Başlık: <input type="text" name="ArticleTitle" size="96"  id="ArticleTitle" value="<?php echo str_replace ('"',  '&#34',$s->ArticleTitle);?>"> <br>
 Dergi ismi: <input type="text" name="Title" size="80"  id="Title" value="<?php echo $s->dergi;?>"><br> 
 ISSN: <input type="text" name="ISSN" size="8"  id="ISSN" value="<?php echo $s->ISSN;?>">
 eISSN: <input type="text" name="eISSN" size="8"  id="eISSN" value="<?php echo $s->eISSN;?>">
