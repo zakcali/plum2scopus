@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- plum2scopus V2.3: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
+<!-- plum2scopus V2.4: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
 programmed by Zafer Akçalı, MD -->
 <html>
 <head>

@@ -1,12 +1,16 @@
 <?php
 class getPlumPublication {
-	public $scopusid='', $doi='', $ArticleTitle='', $dergi='', $publisher='', $ISSN='', $eISSN='', $Year='', $Volume='', $Issue='', $StartPage='', $EndPage='', $yazarlar='', $PublicationType='', $AbstractText='', $PMID='', $atif='', $ISBN='', $dikkat='';
-	public $yazarS=0;
 	
 	function __construct() {
-
+		$this->initialize();
+		}
+	
+	function initialize () {
+		$this->scopusid=''; $this->doi=''; $this->ArticleTitle=''; $this->dergi=''; $this->publisher=''; $this->ISSN=''; $this->eISSN=''; $this->Year=''; $this->Volume=''; $this->Issue=''; $this->StartPage=''; $this->EndPage=''; $this->yazarlar=''; $this->PublicationType=''; $this->AbstractText=''; $this->PMID=''; $this->atif=''; $this->ISBN=''; $this->dikkat='';
+		$this->yazarS=0; 
 		}
 	final function plumPublication ($sid) {
+	$this->initialize();
 	
 	if( substr($sid,0,7) != '2-s2.0-')
 		$sid='2-s2.0-'.$sid; // correct format
@@ -22,7 +26,11 @@ class getPlumPublication {
 		}
 	$plumId=str_replace('https://plu.mx/a/','',$plumBilgi['link']);
 	$plumLink='https://plu.mx/api/v1/artifact/id/'.$plumId;
-	$data2=file_get_contents($plumLink);
+	$data2=@file_get_contents($plumLink);
+	if (!$data2) {
+		$this->dikkat='bağlantı kurulamadı';   
+		return;
+		}
 	$scopusBilgi=(json_decode($data2, true));
 	if (!$this->ArticleTitle=$scopusBilgi['bibliographic_data']['artifact_title']) {// no title
 		$this->dikkat='yayın bulunamadı'; 
